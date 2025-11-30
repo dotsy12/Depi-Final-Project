@@ -578,8 +578,8 @@ public class ServiceProviderService : IServiceProviderService
 
 
     public async Task<Response<ElAnis.Entities.DTO.Availability.AvailabilityDto>> AddAvailabilityAsync(
-            AddAvailabilityRequest request,
-            ClaimsPrincipal userClaims)
+        AddAvailabilityRequest request,
+        ClaimsPrincipal userClaims)
     {
         try
         {
@@ -593,12 +593,13 @@ public class ServiceProviderService : IServiceProviderService
             if (profile == null)
                 return _responseHandler.NotFound<ElAnis.Entities.DTO.Availability.AvailabilityDto>("Profile not found");
 
-            // Check if date already exists
+            // ✅ الكود الجديد: التحقق من التاريخ + الـ Shift معاً
             var existing = await _unitOfWork.ProviderAvailabilities
-                .GetByDateAsync(profile.Id, request.Date);
+                .GetByDateAndShiftAsync(profile.Id, request.Date, request.AvailableShift);
 
             if (existing != null)
-                return _responseHandler.BadRequest<ElAnis.Entities.DTO.Availability.AvailabilityDto>("Availability for this date already exists. Please update it instead.");
+                return _responseHandler.BadRequest<ElAnis.Entities.DTO.Availability.AvailabilityDto>(
+                    $"Availability for {request.Date:yyyy-MM-dd} and shift {request.AvailableShift} already exists. Please update it instead.");
 
             var availability = new ProviderAvailability
             {
@@ -629,8 +630,6 @@ public class ServiceProviderService : IServiceProviderService
             return _responseHandler.ServerError<ElAnis.Entities.DTO.Availability.AvailabilityDto>("Error adding availability");
         }
     }
-
-
     public async Task<Response<ElAnis.Entities.DTO.Availability.AvailabilityDto>> UpdateAvailabilityAsync(
            UpdateAvailabilityRequest request,
            ClaimsPrincipal userClaims)

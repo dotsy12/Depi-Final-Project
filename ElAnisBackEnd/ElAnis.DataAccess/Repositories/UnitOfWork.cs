@@ -29,12 +29,19 @@ namespace ElAnis.DataAccess
         private IProviderAvailabilityRepository? _providerAvailabilities;
         private IServicePricingRepository? _servicePricings;
         private IServiceRequestRepository? _serviceRequests;
+        private IPaymentRepository? _payments;
+        private IReviewRepository? _reviews;
         public UnitOfWork(AuthContext context)
         {
             _context = context;
             _repositories = new ConcurrentDictionary<Type, object>();
         }
 
+        public IReviewRepository Reviews =>
+    _reviews ??= new ReviewRepository(_context);
+
+        public IPaymentRepository Payments =>
+            _payments ??= new PaymentRepository(_context);
         public IUserRepository Users =>
             _users ??= new UserRepository(_context);
 

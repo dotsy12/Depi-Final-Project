@@ -132,6 +132,9 @@ namespace ElAnis.DataAccess.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("ProfilePicturePublicId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -204,7 +207,7 @@ namespace ElAnis.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRefreshTokens", (string)null);
+                    b.ToTable("UserRefreshTokens");
                 });
 
             modelBuilder.Entity("ElAnis.Entities.Models.Category", b =>
@@ -481,7 +484,7 @@ namespace ElAnis.DataAccess.Migrations
                     b.HasIndex("ServiceRequestId")
                         .IsUnique();
 
-                    b.ToTable("Reviews", null, t =>
+                    b.ToTable("Reviews", t =>
                         {
                             t.HasCheckConstraint("CK_Review_Rating", "Rating >= 1 AND Rating <= 5");
                         });
@@ -552,10 +555,16 @@ namespace ElAnis.DataAccess.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("CVPublicId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CertificatePath")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("CertificatePublicId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -582,6 +591,9 @@ namespace ElAnis.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IdDocumentPublicId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -731,7 +743,7 @@ namespace ElAnis.DataAccess.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("ServiceProviderProfiles", (string)null);
+                    b.ToTable("ServiceProviderProfiles");
                 });
 
             modelBuilder.Entity("ElAnis.Entities.Models.ServiceRequest", b =>
@@ -824,7 +836,7 @@ namespace ElAnis.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataProtectionKeys", (string)null);
+                    b.ToTable("DataProtectionKeys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

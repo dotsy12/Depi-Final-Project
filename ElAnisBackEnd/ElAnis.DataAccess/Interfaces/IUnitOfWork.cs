@@ -17,6 +17,9 @@ namespace ElAnis.DataAccess
         IServicePricingRepository ServicePricings { get; }
         IServiceRequestRepository ServiceRequests { get; }
 
+        IReviewRepository Reviews { get; }
+        IPaymentRepository Payments { get; }
+
         // Generic repository for other entities
         IGenericRepository<T> Repository<T>() where T : class;
 
